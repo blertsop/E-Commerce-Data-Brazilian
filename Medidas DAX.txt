@@ -1,0 +1,88 @@
+--Promedio de Venta.
+```
+Promedio de Venta = AVERAGEX(Ventas,Ventas[Venta Total])
+```
+--Cantidad de Items Vendidos
+```
+Items_Vendidos = COUNTA('Tabla de Ventas'[Id_Orden])
+```
+--Precio de Venta
+```
+Precio de Venta = SUM('Tabla de Ventas'[Precio])
+```
+--Precio de Flete.
+```
+Precio de Flete = SUM('Tabla de Ventas'[Costo_Flete])
+```
+--Venta Total = Precio de Venta + Precio de Flete
+```
+Venta Total = [Precio de Flete]+[Precio de Venta]
+```
+
+--Venta Periodo Anterior = 
+```
+Venta PY =
+  
+
+VAR Venta_Anio_Anterior =
+ 
+
+    CALCULATE (Ventas[Venta Total], SAMEPERIODLASTYEAR (Calendario[Date]))
+ 
+
+RETURN
+ 
+
+Venta_Anio_Anterior
+```
+
+--% Venta Periodo Anterior.
+
+```
+Venta YoY % =
+
+  
+
+VAR Venta_Anio_Anterior =
+ 
+
+    CALCULATE (Ventas[Venta Total], SAMEPERIODLASTYEAR(Calendario[Date]))
+ 
+
+RETURN
+ 
+
+    DIVIDE ((Ventas[Venta Total] - Venta_Anio_Anterior), Venta_Anio_Anterior)
+```
+--Conteo tipo de metodo de pago.  
+```
+Boleto =
+
+VAR ConteoBoleto =
+
+    COUNTROWS(
+
+        FILTER(
+
+            'Tipo de Pago',
+
+            'Tipo de Pago'[payment_type] = "Boleto"
+
+        )
+
+    )
+
+RETURN
+
+    IF(
+
+        ISBLANK(ConteoBoleto),
+
+        0,
+
+        ConteoBoleto
+
+    )
+```
+```
+
